@@ -10,7 +10,7 @@ streamclean = pd.read_csv("Thursday.csv", header=None, names=column_names)
 streamclean = streamclean.drop(columns=['Index', 'Extra1', 'Extra2', 'Extra3'])
 
 # Convert 'Day' to int for filtering
-streamclean['Day'] = streamclean['Day'].astype(int)
+streamclean['Day'] = pd.to_numeric(streamclean['Day'], errors='coerce').fillna(0).astype(int)
 
 st.title("Daily Net Consumption")
 
