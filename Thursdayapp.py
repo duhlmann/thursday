@@ -2,8 +2,9 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 
-# Load your CSV file
 streamclean = pd.read_csv("Thursday.csv")
+
+st.write(streamclean.columns)
 
 # Title of the app
 st.title("Daily Net Consumption")
