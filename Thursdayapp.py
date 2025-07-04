@@ -2,64 +2,28 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 
-
+# Load your CSV file
 streamclean = pd.read_csv("Thursday.csv")
-# Sidebar title
-st.sidebar.title("Settings")
 
-# Sidebar input example: select a month to filter
-month_options = ['All Months', 'January', 'February', 'March', 'April', 'May', 'June', 
-                 'July', 'August', 'September', 'October', 'November', 'December']
+# Title of the app
+st.title("Daily Net Consumption")
 
-selected_month = st.sidebar.selectbox("Select Month", month_options)
+# Slider to select day range
+day_min, day_max = st.slider("Select Day Range", 1, 365, (1, 365))
 
-# Load your data (replace with your real data loading)
-# streamclean = pd.read_csv('your_data.csv')
-# For now, assume streamclean is already loaded
+# Filter data based on selected days
+filtered_data = streamclean[(streamclean['Day'] >= day_min) & (streamclean['Day'] <= day_max)]
 
-# Filter data if a specific month is selected
-if selected_month != 'All Months':
-    filtered_data = streamclean[streamclean['Month'] == selected_month]
-else:
-    filtered_data = streamclean
-
-# Your chart code here, using filtered_data instead of streamclean
-zoom = alt.selection_interval(encodings=['x'])
-
-month_order = ['January', 'February', 'March', 'April', 'May', 'June', 
-               'July', 'August', 'September', 'October', 'November', 'December']
-
-filtered_data['Month'] = pd.Categorical(filtered_data['Month'], categories=month_order, ordered=True)
-
-faceted_chart = alt.Chart(filtered_data).mark_line(point=True).encode(
-    x=alt.X('Day:Q', title='Day of Month', axis=alt.Axis(tickCount=10)),
+# Create the line chart
+chart = alt.Chart(filtered_data).mark_line(point=True).encode(
+    x=alt.X('Day:Q', title='Day of Year'),
     y=alt.Y('Net Consumption (kWh):Q', title='Net Consumption (kWh)'),
-    tooltip=[
-        alt.Tooltip('Dates:T', title='Date'),
-        alt.Tooltip('Net Consumption (kWh):Q', title='Consumption (kWh)'),
-    ]
-).add_params(
-    zoom
+    tooltip=['Dates:T', 'Net Consumption (kWh):Q']
 ).properties(
-    width=350,
-    height=200,
-    title='Daily Net Consumption by Month (Zoom & Pan Enabled)'
-).facet(
-    column=alt.Column('Month:N', sort=month_order, header=alt.Header(labelAngle=0, labelFontSize=14))
-).resolve_scale(
-    y='shared',
-    x='shared'
+    width=700,
+    height=400,
+    title="Net Consumption over Days"
 )
 
-st.altair_chart(faceted_chart, use_container_width=True)
-
-
-
-
-
-
-
-
-
-
-
+# Show the chart in Streamlit
+st.altair_chart(chart, use_container_width=True)
