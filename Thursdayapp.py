@@ -22,7 +22,7 @@ day_min, day_max = st.slider("Select Day Range", 1, 365, (1, 365))
 filtered_data = streamclean[(streamclean['Day'] >= day_min) & (streamclean['Day'] <= day_max)]
 
 # Show debug info
-st.write("All unique Day values in dataset:", streamclean['Day'].unique())
+st.write("Full data preview (first 10 rows):", streamclean.head(10))
 # Show chart only if there is data
 if not filtered_data.empty:
     chart = alt.Chart(filtered_data).mark_line(point=True).encode(
