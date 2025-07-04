@@ -3,7 +3,7 @@ import pandas as pd
 import altair as alt
 
 
-streamclean = pd.read_csv("util.csv")
+streamclean = pd.read_csv("Thursday.csv")
 # Sidebar title
 st.sidebar.title("Settings")
 
