@@ -14,6 +14,8 @@ st.title("Daily Net Consumption")
 day_min, day_max = st.slider("Select Day Range", 1, 365, (1, 365))
 
 filtered_data = streamclean[(streamclean['Day'] >= day_min) & (streamclean['Day'] <= day_max)]
+st.write("Filtered data preview:", filtered_data.head())
+st.write(f"Number of rows after filtering: {filtered_data.shape[0]}")
 
 chart = alt.Chart(filtered_data).mark_line(point=True).encode(
     x=alt.X('Day', title='Day of Year'),
