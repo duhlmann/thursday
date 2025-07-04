@@ -1,13 +1,14 @@
 import streamlit as st
 import pandas as pd
 
-# Just read the raw CSV without any processing
 df = pd.read_csv("Thursday.csv", header=None)
 
-# Show raw CSV structure
-st.title("🧪 Raw Thursday.csv Data Preview")
-st.write("First 15 rows of the raw file:")
-st.write(df.head(15))
+st.title("🧪 Raw Thursday.csv Data Preview - Text Version")
+st.write("First 15 rows of the raw file as text:")
 
-# Show number of rows and columns
+# Convert the first 15 rows to a string
+raw_text = df.head(15).to_string(index=True)
+
+st.text(raw_text)
+
 st.write("Shape of raw CSV:", df.shape)
