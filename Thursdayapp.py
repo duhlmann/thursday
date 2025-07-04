@@ -2,15 +2,13 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 
-# Load the CSV with no header and assign your own column names
-column_names = ['Index', 'Dates', 'Day', 'Net Consumption (kWh)', 'Extra1', 'Extra2', 'Extra3']
-streamclean = pd.read_csv("Thursday.csv", header=None, names=column_names)
+# Load the CSV with no renaming or cleanup
+streamclean = pd.read_csv("Thursday.csv", header=None)
 
-# Drop unused columns
-streamclean = streamclean.drop(columns=['Index', 'Extra1', 'Extra2', 'Extra3'])
-
-# Convert 'Day' safely to integers
-streamclean['Day'] = pd.to_numeric(streamclean['Day'], errors='coerce').fillna(0).astype(int)
+# Show raw CSV contents
+st.title("🧪 RAW CSV PREVIEW")
+st.write("Here is what the raw CSV looks like (first 15 rows):")
+st.write(streamclean.head(15))
 
 # Start Streamlit app
 st.title("Daily Net Consumption")
